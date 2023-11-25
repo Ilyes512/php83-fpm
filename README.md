@@ -2,7 +2,7 @@
 
 A PHP 8.3 (FPM) based Docker base image.
 
-[![Build Images](https://github.com/Ilyes512/php83-fpm/actions/workflows/build.yml/badge.svg)](https://github.com/Ilyes512/php83-fpm/actions/workflows/build.yml)
+[![Build Images](https://github.com/Ilyes512/php83-fpm/actions/workflows/main.yml/badge.svg)](https://github.com/Ilyes512/php83-fpm/actions/workflows/main.yml)
 
 ## Pulling the images
 
