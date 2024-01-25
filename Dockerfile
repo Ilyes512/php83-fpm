@@ -4,13 +4,13 @@ FROM php:8.3.2-fpm-bullseye AS runtime
 ARG UNIQUE_ID_FOR_CACHEFROM=runtime
 
 # Latest version of event-extension: https://pecl.php.net/package/event
-ARG PHP_EVENT_VERSION=3.1.0
+ARG PHP_EVENT_VERSION=3.1.2
 # Latest version of igbinary-extension: https://pecl.php.net/package/igbinary
-ARG PHP_IGBINARY_VERSION=stable
+ARG PHP_IGBINARY_VERSION=3.2.15
 # Latest version of redis-extension: https://pecl.php.net/package/redis
-ARG PHP_REDIS_VERSION=stable
+ARG PHP_REDIS_VERSION=6.0.2
 # Latest version of amqp-extension: https://pecl.php.net/package/amqp
-ARG PHP_AMQP_VERSION=stable
+ARG PHP_AMQP_VERSION=2.1.2
 
 ENV SMTPHOST mail
 ENV SMTPEHLO localhost
