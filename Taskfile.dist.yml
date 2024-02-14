@@ -69,4 +69,5 @@ tasks:
         --interactive
         --tty
         --rm
-        {{.DOCKER_REPO}}/{{.DOCKER_OWNER}}/{{.DOCKER_IMAGE_NAME}}:builder_nodejs-{{.VERSION | default "latest" }}
+        {{.DOCKER_REPO}}/{{.DOCKER_OWNER}}/{{.DOCKER_IMAGE_NAME}}:builder-{{.VERSION | default "latest" }}
+        bash
