@@ -1,8 +1,8 @@
 # php83-fpm
 
-A PHP 8.3 (FPM) based Docker base image.
-
 [![Build Images](https://github.com/Ilyes512/php83-fpm/actions/workflows/main.yml/badge.svg)](https://github.com/Ilyes512/php83-fpm/actions/workflows/main.yml)
+
+A PHP 8.3 (FPM) based Docker base image.
 
 ## Pulling the images
 
@@ -58,27 +58,7 @@ docker build --tag ghcr.io/ilyes512/php83-fpm:vscode-latest --target vscode .
 Available [Task](https://taskfile.dev/#/) commands:
 
 ```
-* build:          Build all PHP Docker image targets
-* lint:           Apply a Dockerfile linter (https://github.com/hadolint/hadolint)
-* shell:          Interactive shell
-* act:main:       Run Act with push event on main branch
-* act:pr:         Run Act with pull_request event
-* act:tag:        Run Act with tag (push) event
+* build:       Build all PHP Docker image targets
+* lint:        Apply a Dockerfile linter (https://github.com/hadolint/hadolint)
+* shell:       Interactive shell
 ```
-
-### Act tasks
-
-[Act](https://github.com/nektos/act) is a tool to run Github Actions locally. Before you can run Act and the
-`act:*`-tasks you need to add an `GITHUB_TOKEN`-secret. You can do this by adding the following
-Act config file to you users `$HOME`-directory:
-
-File path: `~/.actrc`
-```
--s GITHUB_TOKEN=<your_github_token>
-```
-
-Replace `<your_github_token>` with a Github personal acces token. You can generate a new token
-[here](https://github.com/settings/tokens/new?description=Act) (no scopes
-are needed!).
-
-Note: Does not (yet) work for Apple devices using Apple Silicon (i.e. M1).
