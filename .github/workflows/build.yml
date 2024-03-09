@@ -53,25 +53,25 @@ jobs:
         uses: ASzc/change-string-case-action@v6
         with:
           string: ghcr.io/${{ github.repository }}
-      - name: Build and Push (runtime)
+      - name: Build and Push by digest (runtime)
         uses: ./.github/actions/build-target
         with:
           name: ${{ steps.image_name.outputs.lowercase }}
           target: runtime
           platform: ${{ inputs.platform }}
-      - name: Build and Push (builder)
+      - name: Build and Push by digest (builder)
         uses: ./.github/actions/build-target
         with:
           name: ${{ steps.image_name.outputs.lowercase }}
           target: builder
           platform: ${{ inputs.platform }}
-      - name: Build and Push (builder_nodejs)
+      - name: Build and Push by digest (builder_nodejs)
         uses: ./.github/actions/build-target
         with:
           name: ${{ steps.image_name.outputs.lowercase }}
           target: builder_nodejs
           platform: ${{ inputs.platform }}
-      - name: Build and Push (vscode)
+      - name: Build and Push by digest (vscode)
         uses: ./.github/actions/build-target
         with:
           name: ${{ steps.image_name.outputs.lowercase }}

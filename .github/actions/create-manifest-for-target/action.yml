@@ -1,0 +1,36 @@
+name: Create Manifest for Target
+
+inputs:
+  name:
+    description: Name of the image
+    type: string
+    required: true
+  target:
+    description: Name of the dockerfile target
+    type: string
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Download digests (${{ inputs.target }})
+      uses: actions/download-artifact@v4
+      with:
+        path: /tmp/digests/${{ inputs.target }}
+        pattern: digests-${{ inputs.target }}-*
+        merge-multiple: true
+    - name: Docker meta (${{ inputs.target }})
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ inputs.name }}
+    - name: Create manifest list and push (${{ inputs.target }})
+      shell: bash
+      working-directory: /tmp/digests/${{ inputs.target }}
+      run: |
+        docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
+        $(printf '${{ inputs.name }}@sha256:%s ' *)
+    - name: Inspect image
+      shell: bash
+      run: |
+        docker buildx imagetools inspect ${{ inputs.name }}:${{ steps.meta.outputs.version }}

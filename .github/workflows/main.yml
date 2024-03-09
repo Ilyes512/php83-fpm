@@ -26,3 +26,9 @@ jobs:
       cache-restore-keys: |
         ${{ matrix.os }}-buildx-${{ matrix.platform }}-${{ github.ref_name }}-
         ${{ matrix.os }}-buildx-${{ matrix.platform }}-
+
+  merge:
+    uses: ./.github/workflows/merge.yml
+    needs: build
+    with:
+      runner-os: ubuntu-22.04

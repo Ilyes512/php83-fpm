@@ -28,3 +28,8 @@ jobs:
         ${{ matrix.os }}-buildx-${{ matrix.platform }}-main-
         ${{ matrix.os }}-buildx-${{ matrix.platform }}-
 
+  merge:
+    uses: ./.github/workflows/merge.yml
+    needs: build
+    with:
+      runner-os: ubuntu-22.04
