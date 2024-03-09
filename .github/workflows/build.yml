@@ -4,19 +4,19 @@ on:
   workflow_call:
     inputs:
       runner-os:
-        description: 'Operating system ("ubuntu-22.04")'
+        description: Operating system ("ubuntu-22.04")
         type: string
         required: true
-      arch:
-        description: 'Architecture ("linux/amd64", "linux/arm64")'
+      platform:
+        description: Platform i.e. "linux/amd64", "linux/arm64"
         type: string
         required: true
       cache-key:
-        description: 'Cache key'
+        description: Cache key
         type: string
         required: true
       cache-restore-keys:
-        description: 'Cache restore keys list'
+        description: Cache restore keys list
         type: string
         required: true
 
@@ -49,7 +49,7 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3.0.0
         with:
-            platforms: ${{ inputs.arch }}
+            platforms: ${{ inputs.platform }}
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v3.1.0
@@ -102,7 +102,7 @@ jobs:
         with:
           push: ${{ github.actor != 'dependabot[bot]' }}
           context: .
-          platforms: ${{ inputs.arch }}
+          platforms: ${{ inputs.platform }}
           target: runtime
           tags: ${{ steps.meta_runtime.outputs.tags }}
           labels: ${{ steps.meta_runtime.outputs.labels }}
@@ -113,7 +113,7 @@ jobs:
         with:
           push: ${{ github.actor != 'dependabot[bot]' }}
           context: .
-          platforms: ${{ inputs.arch }}
+          platforms: ${{ inputs.platform }}
           target: builder
           tags: ${{ steps.meta_builder.outputs.tags }}
           labels: ${{ steps.meta_builder.outputs.labels }}
@@ -124,7 +124,7 @@ jobs:
         with:
           push: ${{ github.actor != 'dependabot[bot]' }}
           context: .
-          platforms: ${{ inputs.arch }}
+          platforms: ${{ inputs.platform }}
           target: builder_nodejs
           tags: ${{ steps.meta_builder_nodejs.outputs.tags }}
           labels: ${{ steps.meta_builder_nodejs.outputs.labels }}
@@ -135,7 +135,7 @@ jobs:
         with:
           push: ${{ github.actor != 'dependabot[bot]' }}
           context: .
-          platforms: ${{ inputs.arch }}
+          platforms: ${{ inputs.platform }}
           target: vscode
           tags: ${{ steps.meta_vscode.outputs.tags }}
           labels: ${{ steps.meta_vscode.outputs.labels }}
