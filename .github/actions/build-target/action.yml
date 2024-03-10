@@ -1,0 +1,61 @@
+name: Build Image by Target
+
+inputs:
+  name:
+    description: Name of the image
+    type: string
+    required: true
+  target:
+    description: Name of the dockerfile target
+    type: string
+    required: true
+  platform:
+    description: Platform i.e. "linux/amd64", "linux/arm64"
+    type: string
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Prepare
+      shell: bash
+      run: |
+        platform=${{ inputs.platform }}
+        echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
+    - name: Docker meta (${{ inputs.target }})
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ inputs.name }}
+        flavor: |
+          prefix=${{ inputs.target }}-,onlatest=true
+        tags: |
+          type=ref,event=branch
+          type=ref,event=tag
+          type=ref,event=pr,prefix=${{ inputs.target }}-pr-
+    - name: Build and push by digest (${{ inputs.target }})
+      id: build
+      uses: docker/build-push-action@v5
+      with:
+        push: ${{ github.actor != 'dependabot[bot]' }}
+        context: .
+        platforms: ${{ inputs.platform }}
+        target: ${{ inputs.target }}
+        labels: ${{ steps.meta.outputs.labels }}
+        provenance: false
+        outputs: type=image,name=${{ inputs.name }},push-by-digest=true,name-canonical=true
+        cache-from: type=local,src=/tmp/.buildx-cache
+        cache-to: type=local,dest=/tmp/.buildx-cache-new
+    - name: Export digest (${{ inputs.target }})
+      shell: bash
+      run: |
+        mkdir -p /tmp/digests/${{ inputs.target }}
+        digest="${{ steps.build.outputs.digest }}"
+        touch "/tmp/digests/${{ inputs.target }}/${digest#sha256:}"
+    - name: Upload digest (${{ inputs.target }})
+      uses: actions/upload-artifact@v4
+      with:
+        name: digests-${{ inputs.target }}-${{ env.PLATFORM_PAIR }}
+        path: /tmp/digests/${{ inputs.target }}/*
+        if-no-files-found: error
+        retention-days: 1
