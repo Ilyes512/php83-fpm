@@ -4,6 +4,9 @@
 
 A PHP 8.3 (FPM) based Docker base image.
 
+NOTE:  
+This is replaced by <https://github.com/Ilyes512/php83> which contains both a FPM and a Apache based version.
+
 ## Pulling the images
 
 ```
